@@ -56,6 +56,7 @@ void parse_options(int argc, char **argv)
 	_options.scalemode = SCALE_DOWN;
 	_options.zoom = 1.0;
 	_options.animate = false;
+	_options.loop = -1;
 	_options.gamma = 0;
 	_options.slideshow = 0;
 
@@ -68,7 +69,7 @@ void parse_options(int argc, char **argv)
 	_options.thumb_mode = false;
 	_options.clean_cache = false;
 
-	while ((opt = getopt(argc, argv, "abcfG:g:hin:N:oqrS:s:tvZz:")) != -1) {
+	while ((opt = getopt(argc, argv, "abcfG:g:hil:n:N:oqrS:s:tvZz:")) != -1) {
 		switch (opt) {
 			case '?':
 				print_usage();
@@ -102,6 +103,14 @@ void parse_options(int argc, char **argv)
 			case 'i':
 				_options.from_stdin = true;
 				break;
+      case 'l':
+        n = strtol(optarg, &end, 0);
+        if (*end != '\0' || n <= 0) {
+          fprintf(stderr, "sxiv: invalid argument for option -l: %s\n", optarg);
+          exit(EXIT_FAILURE);
+        }
+        _options.loop = n;
+        break;
 			case 'n':
 				n = strtol(optarg, &end, 0);
 				if (*end != '\0' || n <= 0) {

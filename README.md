@@ -79,6 +79,7 @@ of small previews is displayed, making it easy to choose an image to open.
     -N NAME      Set X window resource name to NAME
     -n NUM       Start at picture NUM
     -o           Write list of marked files to stdout when quitting
+    -l NUM       Loop NUM times and quit
     -q           Be quiet, disable warnings
     -r           Search given directories recursively for images
     -S DELAY     Enable slideshow and set slideshow delay to DELAY seconds

@@ -35,6 +35,7 @@ typedef struct {
 	scalemode_t scalemode;
 	float zoom;
 	bool animate;
+	int loop;
 	int gamma;
 	int slideshow;
 

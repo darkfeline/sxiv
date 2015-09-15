@@ -70,6 +70,7 @@ void img_init(img_t *img, win_t *win)
 	img->alpha = ALPHA_LAYER;
 	img->multi.cap = img->multi.cnt = 0;
 	img->multi.animate = options->animate;
+	img->multi.loop = options->loop;
 	img->multi.length = 0;
 
 	img->cmod = imlib_create_color_modifier();
@@ -806,13 +807,25 @@ bool img_frame_navigate(img_t *img, int d)
 	return img_frame_goto(img, d);
 }
 
+// Use this for quitting on loop.
+typedef int arg_t;
+bool cg_quit(arg_t _);
+
 bool img_frame_animate(img_t *img)
 {
 	if (img == NULL || img->im == NULL || img->multi.cnt == 0)
 		return false;
 
-	if (img->multi.sel + 1 >= img->multi.cnt)
+	if (img->multi.sel + 1 >= img->multi.cnt) {
+		if (img->multi.loop > 0) {
+			img->multi.loop--;
+		}
+		if (img->multi.loop == 0) {
+			// May god have mercy on me.
+			cg_quit(0);
+		}
 		img_frame_goto(img, 0);
+	}
 	else
 		img_frame_goto(img, img->multi.sel + 1);
 	img->dirty = true;
